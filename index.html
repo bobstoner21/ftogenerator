@@ -6,11 +6,15 @@
   <title>Daily Observation Report — BBCode Generator</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Автоматическое увеличение полей ввода под размер текста */
+    /* Автоматическое растягивание полей под текст */
     textarea {
       resize: none;
       overflow: hidden;
       min-height: 90px;
+    }
+    /* Полное удаление сломанного предпросмотра */
+    #preview, .preview, #previewBtn {
+      display: none !important;
     }
   </style>
 </head>
@@ -90,7 +94,9 @@
           <span>ЗАДОКУМЕНТИРОВАННЫЕ СИТУАЦИИ</span>
           <textarea id="situations" placeholder="Опишите ситуации подробно или укажите N/A"></textarea>
         </label>
-      </section><section class="section">
+      </section>
+
+      <section class="section">
         <div class="section-title">(( OOC. УРОВЕНЬ ИГРЫ ))</div>
         <label class="full">
           <span>КАЧЕСТВО И УРОВЕНЬ ИГРЫ, СООТВЕТСТВИЕ РОЛИ</span>
@@ -108,7 +114,6 @@
 
       <div class="actions">
         <button class="generate-btn" type="submit">Generate BBCode</button>
-        <button class="secondary-btn" id="previewBtn" type="button">Предпросмотр</button>
       </div>
     </form>
 
@@ -122,11 +127,6 @@
       </div>
       <textarea id="output" spellcheck="false" placeholder="Здесь появится BBCode после нажатия Generate..."></textarea>
       <div id="copyStatus" class="copy-status" aria-live="polite"></div>
-
-      <div id="preview" class="preview hidden">
-        <div class="preview-title">Предпросмотр структуры</div>
-        <div id="previewContent" class="preview-box"></div>
-      </div>
     </aside>
   </main>
 
@@ -134,7 +134,7 @@
 
   <script>
   (function () {
-    // Автоматическое изменение высоты textarea по мере набора текста
+    // Автоматическое изменение высоты textarea по мере ввода текста
     function autoResizeTextareas() {
       document.querySelectorAll("textarea").forEach(function (ta) {
         ta.style.height = "auto";
@@ -167,16 +167,40 @@
       return el ? el.value : "";
     }
 
-    // Жестко переопределяем функцию генерации, заменяя Central на Rampart
-    function patchedMakeBBCode() {
-      if (typeof traineeName === 'undefined') return;
-      
+    // Жесткая генерация BBCode строго с RAMPART PATROL DIVISION и без шансов на Central
+    function myGenerateBBCode(e) {
+      if (e) e.preventDefault();
+
       var rows = [];
-      // Шапка с Rampart Patrol Division
+      
+      // Четкая шапка Rampart
       rows.push(
-        '[CENTER][B][SIZE=6]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]\n' +
-        '[SIZE=5][B]DAILY OBSERVATION REPORT[/B][/SIZE]\n\n' +
-        '[SIZE=3]LOS SANTOS POLICE DEPARTMENT\nRAMPART PATROL DIVISION[/SIZE][/CENTER]\n\n' +
+        '[CENTER][B][SIZE=5]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]\n' +
+        '[SIZE=4][B]DAILY OBSERVATION REPORT[/B][/SIZE][/CENTER]\n' +
+        '[RIGHT][SIZE=2]LOS SANTOS POLICE DEPARTMENT\nRAMPART PATROL DIVISION[/SIZE][/RIGHT]\n\n' +
+        '[HR][/HR]\n\n' +
+        '[SIZE=4][B]I. GENERAL INFORMATION[/B][/SIZE]\n'
+      );
+
+      var val = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : "N/A"; };
+
+      rows.push(
+        '[TABLE]\n' +
+        '[TR]\n' +
+        '[TD][B]ПОЛНОЕ ИМЯ СТАЖЁРА:[/B] ' + (val('traineeName') || 'N/A') + '[/TD]\n' +
+        '[TD][B]ДАТА ПАТРУЛИРОВАНИЯ:[/B] ' + (val('patrolDate') || 'N/A') + '[/TD]\n' +
+        '[/TR]\n' +
+        '[TR]\n' +
+        '[TD][B]МАРКИРОВКА:[/B] ' + (val('marking') || 'N/A') + '[/TD]\n' +
+        '[TD][B]НАЧАЛО И КОНЕЦ ПАТРУЛЯ:[/B] ' + (val('patrolTime') || 'N/A') + '[/TD]\n' +
+        '[/TR]\n' +
+        '[/TABLE]\n\n' +
+        '[HR][/HR]\n\n' +
+        '[SIZE=4][B]II. RATING BY CATEGORY[/B][/SIZE]\n'
+      );
+
+      // Таблица рейтинга
+      rows.push(
         '[TABLE]\n' +
         '[TR]\n' +
         '[TH][CENTER]КАТЕГОРИИ[/CENTER][/TH]\n' +
@@ -215,36 +239,34 @@
               '[TD]' + mark('C') + '[/TD]\n' +
               '[TD]' + mark('S') + '[/TD]\n' +
               '[TD]' + mark('NRT') + '[/TD]\n' +
-              '[TD][CENTER]' + (ds || ' ') + '[/CENTER][/TD]\n' +
+              '[TD][CENTER]' + (ds || '-') + '[/CENTER][/TD]\n' +
               '[/TR]'
             );
             index++;
           });
         });
       }
-      rows.push('[/TABLE]\n');
+      rows.push('[/TABLE]\n\n[HR][/HR]\n');
 
-      // Добавляем секции общей информации и текстов
-      var val = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; };
-      
-      rows.push('[TABLE]');
-      rows.push('[TR][TD][B]ПОЛНОЕ ИМЯ СТАЖЁРА:[/B] ' + (val('traineeName') || 'N/A') + '[/TD][TD][B]ДАТА ПАТРУЛИРОВАНИЯ:[/B] ' + (val('patrolDate') || 'N/A') + '[/TD][/TR]');
-      rows.push('[TR][TD][B]МАРКИРОВКА:[/B] ' + (val('marking') || 'N/A') + '[/TD][TD][B]НАЧАЛО И КОНЕЦ ПАТРУЛЯ:[/B] ' + (val('patrolTime') || 'N/A') + '[/TD][/TR]');
-      rows.push('[/TABLE]\n');
-
+      // Блоки с текстом
       function addBlock(title, text) {
         if (!text) return;
-        rows.push('[B]' + title + '[/B]');
-        rows.push('[QUOTE]' + text + '[/QUOTE]');
+        rows.push('[SIZE=4][B]' + title + '[/B][/SIZE]');
+        rows.push('[QUOTE]' + text + '[/QUOTE]\n');
       }
 
+      addBlock('III. NARRATIVE EVALUATION', '');
       addBlock('ЧТО ВАМ БОЛЬШЕ ВСЕГО ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?', val('liked'));
       addBlock('ЧТО ВАМ БОЛЬШЕ ВСЕГО НЕ ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?', val('disliked'));
       addBlock('ВАШИ РЕКОМЕНДАЦИИ ПО ПЕРЕХОДУ СТАЖЕРА В СЛЕДУЮЩУЮ ФАЗУ', val('phase'));
-      addBlock('ЗАДОКУМЕНТИРОВАННЫЕ СИТУАЦИИ (DS)', val('situations'));
-      addBlock('(( OOC. КАЧЕСТВО И УРОВЕНЬ ИГРЫ, СООТВЕТСТВИЕ РОЛИ ))', val('oocQuality'));
-      addBlock('(( OOC. ПОВЕДЕНИЕ ИГРОКА В ООС ))', val('oocBehavior'));
-      addBlock('(( OOC. ЛИЧНЫЕ РЕКОМЕНДАЦИИ И ЗАМЕЧАНИЯ ))', val('oocComments'));
+
+      addBlock('IV. DOCUMENTED SITUATIONS (DS)', '');
+      addBlock('ЗАДОКУМЕНТИРОВАННЫЕ СИТУАЦИИ', val('situations'));
+
+      addBlock('(( OOC. УРОВЕНЬ ИГРЫ ))', '');
+      addBlock('КАЧЕСТВО И УРОВЕНЬ ИГРЫ, СООТВЕТСТВИЕ РОЛИ', val('oocQuality'));
+      addBlock('ПОВЕДЕНИЕ ИГРОКА В ООС', val('oocBehavior'));
+      addBlock('ВАШИ ЛИЧНЫЕ РЕКОМЕНДАЦИИ/КОММЕНТАРИИ И ЗАМЕЧАНИЯ', val('oocComments'));
 
       var outputEl = document.getElementById('output');
       if (outputEl) outputEl.value = rows.join('\n');
@@ -254,13 +276,15 @@
       patchDS();
       autoResizeTextareas();
 
-      // Перехватываем сабмит формы или кнопку генерации, чтобы использовать наш правильный метод
+      // Полностью перехватываем генерацию, убивая чужие обработчики
       var form = document.getElementById('reportForm');
       if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          patchedMakeBBCode();
-        });
+        form.onsubmit = myGenerateBBCode;
+      }
+      
+      var genBtn = document.querySelector('.generate-btn');
+      if (genBtn) {
+        genBtn.onclick = myGenerateBBCode;
       }
 
       setTimeout(function() {
