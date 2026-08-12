@@ -174,7 +174,7 @@ function makeBbCode() {
   return `[CENTER][B][SIZE=5]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]
 [SIZE=4][B]DAILY OBSERVATION REPORT[/B][/SIZE][/CENTER]
 [RIGHT][SIZE=2]LOS SANTOS POLICE DEPARTMENT
-CENTRAL PATROL DIVISION[/SIZE][/RIGHT]
+RAMPART PATROL DIVISION[/SIZE][/RIGHT]
 
 [HR][/HR]
 
@@ -314,7 +314,7 @@ function preview() {
 
       <div class="rp-right rp-dept">
         LOS SANTOS POLICE DEPARTMENT<br>
-        CENTRAL PATROL DIVISION
+        RAMPART PATROL DIVISION
       </div>
 
       <hr class="rp-rule">
