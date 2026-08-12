@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 
 <style>
-  /* ===== INDEX-ONLY UI FIXES ===== */
+  /* ===== UI FIXES ===== */
   html, body { margin: 0; padding: 0; width: 100%; }
   body {
     background: #f3f5f7;
@@ -61,7 +61,7 @@
     font-size: 12px;
   }
 
-  /* ===== RATING TABLE — compact XenForo-like appearance ===== */
+  /* ===== RATING TABLE ===== */
   .rating-table-wrap {
     width: 100%;
     overflow: hidden !important;
@@ -142,7 +142,6 @@
     text-decoration: underline;
   }
 
-  /* Hide native radio/checkbox circles. JS still reads the input value. */
   .rating-cell input {
     appearance: none !important;
     -webkit-appearance: none !important;
@@ -202,8 +201,6 @@
     font-size: 11px;
   }
 
-  /* User asked to remove the broken preview: keep the legacy nodes hidden
-     because script.js expects them to exist. */
   #previewBtn, #preview { display: none !important; }
 
   @media (max-width: 850px) {
@@ -219,22 +216,12 @@
     .rating-table td:last-child { width: 42px !important; }
   }
 </style>
-
-
-
-<style>
-/* Keep the interface at normal scale so the table remains compact. */
-body {
-  zoom: 1;
-}
-</style>
-
 </head>
 <body>
   <header class="topbar">
     <div>
       <div class="eyebrow">LOS SANTOS POLICE DEPARTMENT</div>
-      <h1>Daily Observation Report</h1>
+      <h1>Daily Observation Report — Rampart Division</h1>
       <p>Генератор XenForo BBCode</p>
     </div>
     <button class="ghost-btn" id="resetBtn" type="button">Очистить форму</button>
@@ -346,11 +333,6 @@ body {
   <script src="script.js"></script>
 
 <script>
-/* ===== INDEX-ONLY FUNCTIONAL PATCH =====
-   1) DS is now a numeric score from 1 to 10.
-   2) The generated BBCode prints that DS number.
-   3) The old preview remains disabled visually, so it cannot break the layout.
-*/
 (function () {
   function patchDS() {
     document.querySelectorAll(".ds-select").forEach(function (select) {
@@ -373,14 +355,15 @@ body {
   function patchedRatingTable() {
     var rows = [];
     rows.push(
+      '[TABLE]\n' +
       '[TR]\n' +
-      '[TD][CENTER][B]КАТЕГОРИИ[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]N/O[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]N/I[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]C[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]S[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]NRT[/B][/CENTER][/TD]\n' +
-      '[TD][CENTER][B]DS[/B][/CENTER][/TD]\n' +
+      '[TH][CENTER]КАТЕГОРИИ[/CENTER][/TH]\n' +
+      '[TH][CENTER]N/O[/CENTER][/TH]\n' +
+      '[TH][CENTER]N/I[/CENTER][/TH]\n' +
+      '[TH][CENTER]C[/CENTER][/TH]\n' +
+      '[TH][CENTER]S[/CENTER][/TH]\n' +
+      '[TH][CENTER]NRT[/CENTER][/TH]\n' +
+      '[TH][CENTER]DS[/CENTER][/TH]\n' +
       '[/TR]'
     );
 
@@ -388,7 +371,7 @@ body {
     groups.forEach(function (group) {
       rows.push(
         '[TR]\n' +
-        '[TD][B][U]' + group.name + '[/U][/B][/TD]\n' +
+        '[TD][B]' + group.name + '[/B][/TD]\n' +
         '[TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD]\n' +
         '[/TR]'
       );
@@ -398,12 +381,12 @@ body {
         var ds = selectedDS(index);
 
         function mark(value) {
-          return '[CENTER]' + (rating === value ? 'X' : ' ') + '[/CENTER]';
+          return '[CENTER]' + (rating === value ? '[B][X][/B]' : '[ ]') + '[/CENTER]';
         }
 
         rows.push(
           '[TR]\n' +
-          '[TD]' + item + '[/TD]\n' +
+          '[TD][B]' + item + '[/B][/TD]\n' +
           '[TD]' + mark('N/O') + '[/TD]\n' +
           '[TD]' + mark('N/I') + '[/TD]\n' +
           '[TD]' + mark('C') + '[/TD]\n' +
@@ -416,17 +399,17 @@ body {
       });
     });
 
-    return '[TABLE]\n' + rows.join('\n') + '\n[/TABLE]';
+    rows.push('[/TABLE]');
+    return rows.join('\n');
   }
 
   window.addEventListener("load", function () {
-    /* script.js has already rendered all rating rows by this point. */
     patchDS();
-
-    /* Replace the global function used by generate() in script.js. */
     window.makeRatingTable = patchedRatingTable;
 
-    /* Safety: re-apply DS options if the form is ever rebuilt. */
+    var titleEl = document.querySelector('h1');
+    if(titleEl) titleEl.innerText = "Daily Observation Report — Rampart Division";
+
     setTimeout(patchDS, 0);
   });
 })();
