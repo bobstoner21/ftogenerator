@@ -55,48 +55,110 @@
     font-size: 12px;
   }
 
-  /* No horizontal scrollbar: the table always fits its container. */
+  /* ===== RATING TABLE — compact layout like screenshot 2 ===== */
   .rating-table-wrap {
     width: 100%;
     overflow: hidden !important;
+    padding: 0;
   }
+
   .rating-table {
     width: 100% !important;
     min-width: 0 !important;
     table-layout: fixed !important;
-    border-collapse: collapse;
+    border-collapse: collapse !important;
+    background: #242831;
   }
-  .rating-table th, .rating-table td {
-    padding: 6px 3px;
-    font-size: 10px;
-    line-height: 1.15;
+
+  .rating-table th,
+  .rating-table td {
+    height: 32px;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+    line-height: 1;
+    vertical-align: middle;
+    border: 1px solid #3b414d !important;
   }
+
   .rating-table th:first-child,
   .rating-table td:first-child {
-    width: auto !important;
-    text-align: left;
-    overflow-wrap: anywhere;
+    width: calc(100% - 306px) !important;
+    text-align: left !important;
+    padding-left: 10px !important;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
   .rating-table th:not(:first-child),
   .rating-table td:not(:first-child) {
-    width: 42px !important;
-    text-align: center;
+    width: 51px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
   }
+
   .rating-table th:last-child,
   .rating-table td:last-child {
-    width: 50px !important;
+    width: 51px !important;
+  }
+
+  .rating-table thead th {
+    height: 34px;
+    background: #252a33;
+    color: #e6e9ee;
+    font-weight: 600;
+    font-size: 11px !important;
+    text-align: center;
+  }
+
+  .rating-table thead th:first-child {
+    text-align: left !important;
+  }
+
+  .rating-table tbody tr {
+    background: #242831;
+  }
+
+  .rating-table tbody tr:hover {
+    background: #292f39;
+  }
+
+  .rating-table .group-row td,
+  .rating-table tr.group-row td {
+    height: 32px !important;
+    padding-left: 10px !important;
+    background: #252a33 !important;
+    font-weight: 700 !important;
+    text-decoration: underline;
+  }
+
+  .rating-cell {
+    text-align: center !important;
+    vertical-align: middle !important;
   }
 
   .rating-cell input {
-    width: 14px;
-    height: 14px;
-    margin: 0;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+    display: inline-block;
+    vertical-align: middle;
+    accent-color: #8fa4ba;
   }
+
   .ds-select {
-    width: 47px !important;
-    height: 26px;
-    padding: 2px 2px !important;
-    font-size: 10px !important;
+    width: 42px !important;
+    max-width: 42px !important;
+    height: 24px !important;
+    padding: 0 2px !important;
+    margin: 0 auto !important;
+    font-size: 11px !important;
+    text-align: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
   }
 
   .actions { padding: 14px; }
@@ -124,18 +186,18 @@
     .topbar, .layout { padding-left: 10px; padding-right: 10px; }
     .grid-2 { grid-template-columns: 1fr; }
     .rating-table th:not(:first-child),
-    .rating-table td:not(:first-child) { width: 35px !important; }
+    .rating-table td:not(:first-child) { width: 42px !important; }
     .rating-table th:last-child,
-    .rating-table td:last-child { width: 44px !important; }
+    .rating-table td:last-child { width: 42px !important; }
   }
 </style>
 
 
 
 <style>
-/* Original design — 10% closer */
+/* Keep the interface at normal scale so the table remains compact. */
 body {
-  zoom: 1.10;
+  zoom: 1;
 }
 </style>
 
