@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Observation Report — BBCode Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">LOS SANTOS POLICE DEPARTMENT</div>
+      <h1>Daily Observation Report</h1>
+      <p>Генератор XenForo BBCode</p>
+    </div>
+    <button class="ghost-btn" id="resetBtn" type="button">Очистить форму</button>
+  </header>
+
+  <main class="layout">
+    <form id="reportForm" class="form-card" autocomplete="off">
+      <section class="section">
+        <div class="section-title">I. GENERAL INFORMATION</div>
+        <div class="grid-2">
+          <label>
+            <span>ПОЛНОЕ ИМЯ СТАЖЁРА</span>
+            <input id="traineeName" type="text" placeholder="Введите имя стажёра">
+          </label>
+          <label>
+            <span>ДАТА ПАТРУЛИРОВАНИЯ</span>
+            <input id="patrolDate" type="date">
+          </label>
+          <label>
+            <span>МАРКИРОВКА</span>
+            <input id="marking" type="text" placeholder="Например: 1A-12">
+          </label>
+          <label>
+            <span>НАЧАЛО И КОНЕЦ ПАТРУЛЯ</span>
+            <input id="patrolTime" type="text" placeholder="HH:MM - HH:MM">
+          </label>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">II. RATING BY CATEGORY</div>
+        <div class="rating-table-wrap">
+          <table class="rating-table">
+            <thead>
+              <tr>
+                <th>КАТЕГОРИИ</th>
+                <th>N/O</th><th>N/I</th><th>C</th><th>S</th><th>NRT</th><th>DS</th>
+              </tr>
+            </thead>
+            <tbody id="ratingBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">III. NARRATIVE EVALUATION</div>
+        <label class="full">
+          <span>ЧТО ВАМ БОЛЬШЕ ВСЕГО ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?</span>
+          <textarea id="liked" rows="5" placeholder="Развернутый ответ..."></textarea>
+        </label>
+        <label class="full">
+          <span>ЧТО ВАМ БОЛЬШЕ ВСЕГО НЕ ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?</span>
+          <textarea id="disliked" rows="5" placeholder="Развернутый ответ..."></textarea>
+        </label>
+        <label class="full">
+          <span>ВАШИ РЕКОМЕНДАЦИИ ПО ПЕРЕХОДУ СТАЖЕРА В СЛЕДУЮЩУЮ ФАЗУ</span>
+          <textarea id="phase" rows="5" placeholder="Развернутый ответ..."></textarea>
+        </label>
+      </section>
+
+      <section class="section">
+        <div class="section-title">IV. DOCUMENTED SITUATIONS (DS)</div>
+        <label class="full">
+          <span>ЗАДОКУМЕНТИРОВАННЫЕ СИТУАЦИИ</span>
+          <textarea id="situations" rows="6" placeholder="Опишите ситуации подробно или укажите N/A"></textarea>
+        </label>
+      </section>
+
+      <section class="section">
+        <div class="section-title">(( OOC. УРОВЕНЬ ИГРЫ ))</div>
+        <label class="full">
+          <span>КАЧЕСТВО И УРОВЕНЬ ИГРЫ, СООТВЕТСТВИЕ РОЛИ</span>
+          <textarea id="oocQuality" rows="4" placeholder="Развернутый ответ..."></textarea>
+        </label>
+        <label class="full">
+          <span>ПОВЕДЕНИЕ ИГРОКА В ООС</span>
+          <textarea id="oocBehavior" rows="4" placeholder="Развернутый ответ..."></textarea>
+        </label>
+        <label class="full">
+          <span>ВАШИ ЛИЧНЫЕ РЕКОМЕНДАЦИИ/КОММЕНТАРИИ И ЗАМЕЧАНИЯ</span>
+          <textarea id="oocComments" rows="4" placeholder="Развернутый ответ..."></textarea>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button class="generate-btn" type="submit">Generate BBCode</button>
+        <button class="secondary-btn" id="previewBtn" type="button">Показать предпросмотр</button>
+      </div>
+    </form>
+
+    <aside class="output-card">
+      <div class="output-head">
+        <div>
+          <div class="eyebrow">OUTPUT</div>
+          <h2>Готовый XenForo BBCode</h2>
+        </div>
+        <button id="copyBtn" class="copy-btn" type="button">Копировать</button>
+      </div>
+      <textarea id="output" spellcheck="false" placeholder="Здесь появится BBCode после нажатия Generate..."></textarea>
+      <div id="copyStatus" class="copy-status" aria-live="polite"></div>
+
+      <div id="preview" class="preview hidden">
+        <div class="preview-title">Предпросмотр структуры</div>
+        <div id="previewContent"></div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
