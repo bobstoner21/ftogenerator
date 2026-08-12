@@ -111,17 +111,26 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
 .full:last-child { margin-bottom: 0; }
 
 .rating-table-wrap { overflow-x: auto; }
+
+/* Принудительно перебиваем темный фон у таблицы */
+.rating-table, 
+.rating-table tbody, 
+.rating-table tr, 
+.rating-table td, 
+.rating-table th {
+  background-color: #ffffff !important;
+  color: var(--text) !important;
+}
+
 .rating-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  background: #ffffff;
-  color: var(--text);
 }
 
 .rating-table th, .rating-table td {
-  border-bottom: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-right: 1px solid #e5e7eb !important;
   padding: 8px 6px;
   font-size: 11px;
   vertical-align: middle;
@@ -130,7 +139,7 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
 .rating-table th {
   font-size: 10px;
   text-align: center;
-  background: #fafafa;
+  background: #fafafa !important;
   font-weight: 800;
 }
 
@@ -152,10 +161,14 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   width: 58px;
 }
 
-.category-row td, .group-row td, tr.category-row td {
+/* Стили для категорий и подзаголовков внутри таблицы */
+.rating-table tr.category-row td, 
+.rating-table .category-row td, 
+.rating-table tr.group-row td, 
+.rating-table .group-row td {
   background: #f1f3f5 !important;
   color: var(--text) !important;
-  font-weight: 900;
+  font-weight: 900 !important;
   text-decoration: underline;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -171,19 +184,20 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   padding: 0;
   cursor: pointer;
   vertical-align: middle;
-  background: white;
+  background: white !important;
 }
 
 .rating-cell input:checked {
-  border: 4px solid #111827;
-  background: #fff;
+  border: 4px solid #111827 !important;
+  background: #fff !important;
 }
 
 .ds-select {
   width: 52px;
   padding: 4px 3px;
   font-size: 11px;
-  background: white;
+  background: white !important;
+  color: var(--text) !important;
 }
 
 .actions {
