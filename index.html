@@ -130,6 +130,14 @@
   }
 </style>
 
+
+<style>
+/* 5% closer / more compact page view */
+body {
+  zoom: 0.95;
+}
+</style>
+
 </head>
 <body>
   <header class="topbar">
@@ -317,7 +325,7 @@
       });
     });
 
-    return '[TABLE]\\n' + rows.join('\\n') + '\\n[/TABLE]';
+    return '[TABLE]\n' + rows.join('\n') + '\n[/TABLE]';
   }
 
   window.addEventListener("load", function () {
