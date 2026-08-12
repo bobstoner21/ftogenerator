@@ -61,7 +61,7 @@
     font-size: 12px;
   }
 
-  /* ===== RATING TABLE ===== */
+  /* ===== RATING TABLE FIXES ===== */
   .rating-table-wrap {
     width: 100%;
     overflow: hidden !important;
@@ -85,7 +85,12 @@
     line-height: 1;
     vertical-align: middle;
     border: 1px solid #3b414d !important;
-    color: #f1f3f5;
+    color: #f1f3f5 !important;
+  }
+
+  .rating-table td {
+    color: #f1f3f5 !important;
+    font-weight: 600;
   }
 
   .rating-table th:first-child,
@@ -96,6 +101,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #f1f3f5 !important;
   }
 
   .rating-table th:not(:first-child),
@@ -126,10 +132,6 @@
 
   .rating-table tbody tr:not(.group-row) {
     background: #242831;
-  }
-
-  .rating-table tbody tr:not(.group-row) td {
-    color: #f1f3f5 !important;
   }
 
   .rating-table .group-row td,
@@ -354,7 +356,12 @@
 
   function patchedRatingTable() {
     var rows = [];
+    
+    // Переопределяем шапку таблицы с правильным делением на Rampart
     rows.push(
+      '[CENTER][B][SIZE=6]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]\n' +
+      '[SIZE=5][B]DAILY OBSERVATION REPORT[/B][/SIZE]\n\n' +
+      '[SIZE=3]LOS SANTOS POLICE DEPARTMENT\nRAMPART PATROL DIVISION[/SIZE][/CENTER]\n\n' +
       '[TABLE]\n' +
       '[TR]\n' +
       '[TH][CENTER]КАТЕГОРИИ[/CENTER][/TH]\n' +
