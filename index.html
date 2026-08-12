@@ -5,226 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daily Observation Report — BBCode Generator</title>
   <link rel="stylesheet" href="style.css">
-
-<style>
-  /* ===== UI FIXES ===== */
-  html, body { margin: 0; padding: 0; width: 100%; }
-  body {
-    background: #f3f5f7;
-    color: #15191f;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .topbar {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 14px 22px 10px;
-    align-items: flex-start;
-  }
-  .topbar .eyebrow { display: none; }
-  .topbar h1 { font-size: 23px; line-height: 1.1; margin: 0; }
-  .topbar p { font-size: 11px; margin-top: 4px; }
-  .ghost-btn { margin-top: 0; }
-
-  .layout {
-    max-width: 1600px;
-    grid-template-columns: minmax(0, 2.15fr) minmax(380px, .95fr);
-    gap: 16px;
-    padding: 0 22px 28px;
-  }
-
-  .form-card, .output-card {
-    border-radius: 0;
-    box-shadow: none;
-    border: 1px solid #d7dce2;
-  }
-
-  .section { padding: 14px; }
-  .section-title {
-    margin: -14px -14px 14px;
-    padding: 7px 10px;
-    font-size: 11px;
-    letter-spacing: .01em;
-    background: #050505 !important;
-    color: #ffffff !important;
-  }
-
-  .grid-2 { gap: 12px 16px; }
-  label > span {
-    font-size: 10px;
-    margin-bottom: 5px;
-    color: #171b20;
-  }
-  input, textarea, select {
-    border-radius: 5px;
-    padding: 8px 9px;
-    font-size: 12px;
-  }
-
-  /* ===== RATING TABLE FIXES ===== */
-  .rating-table-wrap {
-    width: 100%;
-    overflow: hidden !important;
-    padding: 0;
-  }
-
-  .rating-table {
-    width: 100% !important;
-    min-width: 0 !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    background: #242831;
-    color: #f1f3f5;
-  }
-
-  .rating-table th,
-  .rating-table td {
-    height: 32px;
-    padding: 0 8px !important;
-    font-size: 12px !important;
-    line-height: 1;
-    vertical-align: middle;
-    border: 1px solid #3b414d !important;
-    color: #f1f3f5 !important;
-  }
-
-  .rating-table td {
-    color: #f1f3f5 !important;
-    font-weight: 600;
-  }
-
-  .rating-table th:first-child,
-  .rating-table td:first-child {
-    width: calc(100% - 306px) !important;
-    text-align: left !important;
-    padding-left: 10px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #f1f3f5 !important;
-  }
-
-  .rating-table th:not(:first-child),
-  .rating-table td:not(:first-child) {
-    width: 51px !important;
-    padding: 0 !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-  }
-
-  .rating-table th:last-child,
-  .rating-table td:last-child {
-    width: 51px !important;
-  }
-
-  .rating-table thead th {
-    height: 34px;
-    background: #252a33;
-    color: #ffffff !important;
-    font-weight: 700;
-    font-size: 11px !important;
-    text-align: center;
-  }
-
-  .rating-table thead th:first-child {
-    text-align: left !important;
-  }
-
-  .rating-table tbody tr:not(.group-row) {
-    background: #242831;
-  }
-
-  .rating-table .group-row td,
-  .rating-table tr.group-row td {
-    height: 32px !important;
-    padding-left: 10px !important;
-    background: #f5f5f5 !important;
-    color: #171b20 !important;
-    font-weight: 700 !important;
-    text-decoration: underline;
-  }
-
-  .rating-cell input {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    width: 18px !important;
-    height: 18px !important;
-    margin: 0 !important;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    border: 1px solid #8c939d !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    cursor: pointer;
-  }
-
-  .rating-cell input:checked::after {
-    content: "X";
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .rating-cell input:focus-visible {
-    outline: 1px solid #aeb6c2;
-    outline-offset: 1px;
-  }
-
-  .ds-select {
-    width: 42px !important;
-    max-width: 42px !important;
-    height: 24px !important;
-    padding: 0 2px !important;
-    margin: 0 auto !important;
-    font-size: 11px !important;
-    text-align: center;
-    background: #242831 !important;
-    border: 0 !important;
-    color: #f1f3f5 !important;
-  }
-
-  .actions { padding: 14px; }
-  .output-card {
-    position: sticky;
-    top: 12px;
-    padding: 13px;
-  }
-  .output-head { margin-bottom: 9px; }
-  .output-head h2 { font-size: 16px; }
-  #output {
-    min-height: 390px;
-    font-size: 11px;
-  }
-
-  #previewBtn, #preview { display: none !important; }
-
-  @media (max-width: 850px) {
-    .layout { grid-template-columns: 1fr; }
-    .output-card { position: static; }
-  }
-  @media (max-width: 600px) {
-    .topbar, .layout { padding-left: 10px; padding-right: 10px; }
-    .grid-2 { grid-template-columns: 1fr; }
-    .rating-table th:not(:first-child),
-    .rating-table td:not(:first-child) { width: 42px !important; }
-    .rating-table th:last-child,
-    .rating-table td:last-child { width: 42px !important; }
-  }
-</style>
 </head>
 <body>
   <header class="topbar">
     <div>
       <div class="eyebrow">LOS SANTOS POLICE DEPARTMENT</div>
-      <h1>Daily Observation Report — Rampart Division</h1>
-      <p>Генератор XenForo BBCode</p>
+      <h1>Daily Observation Report</h1>
+      <p>Генератор XenForo BBCode — Rampart Patrol Division</p>
     </div>
     <button class="ghost-btn" id="resetBtn" type="button">Очистить форму</button>
   </header>
@@ -260,7 +47,12 @@
             <thead>
               <tr>
                 <th>КАТЕГОРИИ</th>
-                <th>N/O</th><th>N/I</th><th>C</th><th>S</th><th>NRT</th><th>DS</th>
+                <th>N/O</th>
+                <th>N/I</th>
+                <th>C</th>
+                <th>S</th>
+                <th>NRT</th>
+                <th>DS</th>
               </tr>
             </thead>
             <tbody id="ratingBody"></tbody>
@@ -272,15 +64,15 @@
         <div class="section-title">III. NARRATIVE EVALUATION</div>
         <label class="full">
           <span>ЧТО ВАМ БОЛЬШЕ ВСЕГО ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?</span>
-          <textarea id="liked" rows="5" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="liked" placeholder="Развернутый ответ..."></textarea>
         </label>
         <label class="full">
           <span>ЧТО ВАМ БОЛЬШЕ ВСЕГО НЕ ПОНРАВИЛОСЬ В СТАЖЕРЕ ЗА ДЕНЬ?</span>
-          <textarea id="disliked" rows="5" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="disliked" placeholder="Развернутый ответ..."></textarea>
         </label>
         <label class="full">
           <span>ВАШИ РЕКОМЕНДАЦИИ ПО ПЕРЕХОДУ СТАЖЕРА В СЛЕДУЮЩУЮ ФАЗУ</span>
-          <textarea id="phase" rows="5" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="phase" placeholder="Развернутый ответ..."></textarea>
         </label>
       </section>
 
@@ -288,7 +80,7 @@
         <div class="section-title">IV. DOCUMENTED SITUATIONS (DS)</div>
         <label class="full">
           <span>ЗАДОКУМЕНТИРОВАННЫЕ СИТУАЦИИ</span>
-          <textarea id="situations" rows="6" placeholder="Опишите ситуации подробно или укажите N/A"></textarea>
+          <textarea id="situations" placeholder="Опишите ситуации подробно или укажите N/A"></textarea>
         </label>
       </section>
 
@@ -296,21 +88,21 @@
         <div class="section-title">(( OOC. УРОВЕНЬ ИГРЫ ))</div>
         <label class="full">
           <span>КАЧЕСТВО И УРОВЕНЬ ИГРЫ, СООТВЕТСТВИЕ РОЛИ</span>
-          <textarea id="oocQuality" rows="4" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="oocQuality" placeholder="Развернутый ответ..."></textarea>
         </label>
         <label class="full">
           <span>ПОВЕДЕНИЕ ИГРОКА В ООС</span>
-          <textarea id="oocBehavior" rows="4" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="oocBehavior" placeholder="Развернутый ответ..."></textarea>
         </label>
         <label class="full">
           <span>ВАШИ ЛИЧНЫЕ РЕКОМЕНДАЦИИ/КОММЕНТАРИИ И ЗАМЕЧАНИЯ</span>
-          <textarea id="oocComments" rows="4" placeholder="Развернутый ответ..."></textarea>
+          <textarea id="oocComments" placeholder="Развернутый ответ..."></textarea>
         </label>
       </section>
 
       <div class="actions">
         <button class="generate-btn" type="submit">Generate BBCode</button>
-        <button class="secondary-btn" id="previewBtn" type="button">Показать предпросмотр</button>
+        <button class="secondary-btn" id="previewBtn" type="button">Предпросмотр</button>
       </div>
     </form>
 
@@ -318,7 +110,7 @@
       <div class="output-head">
         <div>
           <div class="eyebrow">OUTPUT</div>
-          <h2>Готовый XenForo BBCode</h2>
+          <h2>Готовый BBCode</h2>
         </div>
         <button id="copyBtn" class="copy-btn" type="button">Копировать</button>
       </div>
@@ -327,100 +119,99 @@
 
       <div id="preview" class="preview hidden">
         <div class="preview-title">Предпросмотр структуры</div>
-        <div id="previewContent"></div>
+        <div id="previewContent" class="preview-box"></div>
       </div>
     </aside>
   </main>
 
   <script src="script.js"></script>
 
-<script>
-(function () {
-  function patchDS() {
-    document.querySelectorAll(".ds-select").forEach(function (select) {
-      var current = select.value;
-      select.innerHTML =
-        '<option value="">-</option>' +
-        Array.from({length: 10}, function (_, i) {
-          var n = i + 1;
-          return '<option value="' + n + '">' + n + '</option>';
-        }).join("");
-      if (current) select.value = current;
-    });
-  }
+  <script>
+  (function () {
+    // Исправление выпадающих списков DS (цифры от 1 до 10)
+    function patchDS() {
+      document.querySelectorAll(".ds-select").forEach(function (select) {
+        var current = select.value;
+        select.innerHTML =
+          '<option value="">-</option>' +
+          Array.from({length: 10}, function (_, i) {
+            var n = i + 1;
+            return '<option value="' + n + '">' + n + '</option>';
+          }).join("");
+        if (current) select.value = current;
+      });
+    }
 
-  function selectedDS(index) {
-    var el = document.querySelector('select[data-rating-index="' + index + '"]');
-    return el ? el.value : "";
-  }
+    function selectedDS(index) {
+      var el = document.querySelector('select[data-rating-index="' + index + '"]');
+      return el ? el.value : "";
+    }
 
-  function patchedRatingTable() {
-    var rows = [];
-    
-    // Переопределяем шапку таблицы с правильным делением на Rampart
-    rows.push(
-      '[CENTER][B][SIZE=6]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]\n' +
-      '[SIZE=5][B]DAILY OBSERVATION REPORT[/B][/SIZE]\n\n' +
-      '[SIZE=3]LOS SANTOS POLICE DEPARTMENT\nRAMPART PATROL DIVISION[/SIZE][/CENTER]\n\n' +
-      '[TABLE]\n' +
-      '[TR]\n' +
-      '[TH][CENTER]КАТЕГОРИИ[/CENTER][/TH]\n' +
-      '[TH][CENTER]N/O[/CENTER][/TH]\n' +
-      '[TH][CENTER]N/I[/CENTER][/TH]\n' +
-      '[TH][CENTER]C[/CENTER][/TH]\n' +
-      '[TH][CENTER]S[/CENTER][/TH]\n' +
-      '[TH][CENTER]NRT[/CENTER][/TH]\n' +
-      '[TH][CENTER]DS[/CENTER][/TH]\n' +
-      '[/TR]'
-    );
-
-    var index = 0;
-    groups.forEach(function (group) {
+    // Переопределяем функцию генерации BBCode для таблицы и шапки с Rampart Patrol Division
+    function patchedRatingTable() {
+      var rows = [];
       rows.push(
+        '[CENTER][B][SIZE=6]RAMPART COMMUNITY POLICE STATION[/SIZE][/B]\n' +
+        '[SIZE=5][B]DAILY OBSERVATION REPORT[/B][/SIZE]\n\n' +
+        '[SIZE=3]LOS SANTOS POLICE DEPARTMENT\nRAMPART PATROL DIVISION[/SIZE][/CENTER]\n\n' +
+        '[TABLE]\n' +
         '[TR]\n' +
-        '[TD][B]' + group.name + '[/B][/TD]\n' +
-        '[TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD]\n' +
+        '[TH][CENTER]КАТЕГОРИИ[/CENTER][/TH]\n' +
+        '[TH][CENTER]N/O[/CENTER][/TH]\n' +
+        '[TH][CENTER]N/I[/CENTER][/TH]\n' +
+        '[TH][CENTER]C[/CENTER][/TH]\n' +
+        '[TH][CENTER]S[/CENTER][/TH]\n' +
+        '[TH][CENTER]NRT[/CENTER][/TH]\n' +
+        '[TH][CENTER]DS[/CENTER][/TH]\n' +
         '[/TR]'
       );
 
-      group.items.forEach(function (item) {
-        var rating = selectedRating(index);
-        var ds = selectedDS(index);
+      var index = 0;
+      if (typeof groups !== 'undefined') {
+        groups.forEach(function (group) {
+          rows.push(
+            '[TR]\n' +
+            '[TD][B]' + group.name + '[/B][/TD]\n' +
+            '[TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD][TD][/TD]\n' +
+            '[/TR]'
+          );
 
-        function mark(value) {
-          return '[CENTER]' + (rating === value ? '[B][X][/B]' : '[ ]') + '[/CENTER]';
-        }
+          group.items.forEach(function (item) {
+            var rating = typeof selectedRating === 'function' ? selectedRating(index) : "";
+            var ds = selectedDS(index);
 
-        rows.push(
-          '[TR]\n' +
-          '[TD][B]' + item + '[/B][/TD]\n' +
-          '[TD]' + mark('N/O') + '[/TD]\n' +
-          '[TD]' + mark('N/I') + '[/TD]\n' +
-          '[TD]' + mark('C') + '[/TD]\n' +
-          '[TD]' + mark('S') + '[/TD]\n' +
-          '[TD]' + mark('NRT') + '[/TD]\n' +
-          '[TD][CENTER]' + (ds || ' ') + '[/CENTER][/TD]\n' +
-          '[/TR]'
-        );
-        index++;
-      });
+            function mark(value) {
+              return '[CENTER]' + (rating === value ? '[B][X][/B]' : '[ ]') + '[/CENTER]';
+            }
+
+            rows.push(
+              '[TR]\n' +
+              '[TD][B]' + item + '[/B][/TD]\n' +
+              '[TD]' + mark('N/O') + '[/TD]\n' +
+              '[TD]' + mark('N/I') + '[/TD]\n' +
+              '[TD]' + mark('C') + '[/TD]\n' +
+              '[TD]' + mark('S') + '[/TD]\n' +
+              '[TD]' + mark('NRT') + '[/TD]\n' +
+              '[TD][CENTER]' + (ds || ' ') + '[/CENTER][/TD]\n' +
+              '[/TR]'
+            );
+            index++;
+          });
+        });
+      }
+
+      rows.push('[/TABLE]');
+      return rows.join('\n');
+    }
+
+    window.addEventListener("load", function () {
+      patchDS();
+      if (typeof window.makeRatingTable !== 'undefined') {
+        window.makeRatingTable = patchedRatingTable;
+      }
+      setTimeout(patchDS, 50);
     });
-
-    rows.push('[/TABLE]');
-    return rows.join('\n');
-  }
-
-  window.addEventListener("load", function () {
-    patchDS();
-    window.makeRatingTable = patchedRatingTable;
-
-    var titleEl = document.querySelector('h1');
-    if(titleEl) titleEl.innerText = "Daily Observation Report — Rampart Division";
-
-    setTimeout(patchDS, 0);
-  });
-})();
-</script>
-
+  })();
+  </script>
 </body>
 </html>
