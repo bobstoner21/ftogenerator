@@ -115,22 +115,23 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  min-width: 0;
-  table-layout: fixed;
+  background: #ffffff;
+  color: var(--text);
 }
 
 .rating-table th, .rating-table td {
   border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
   padding: 8px 6px;
   font-size: 11px;
   vertical-align: middle;
-  word-break: normal;
 }
 
 .rating-table th {
   font-size: 10px;
   text-align: center;
   background: #fafafa;
+  font-weight: 800;
 }
 
 .rating-table th:first-child,
@@ -151,17 +152,18 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   width: 58px;
 }
 
-.rating-table td:not(:first-child) { text-align: center; }
-
-.category-row td {
-  background: #f8f8f8;
+.category-row td, .group-row td, tr.category-row td {
+  background: #f1f3f5 !important;
+  color: var(--text) !important;
   font-weight: 900;
   text-decoration: underline;
-  padding-top: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .rating-cell input {
   appearance: none;
+  -webkit-appearance: none;
   width: 15px;
   height: 15px;
   border: 1px solid #858b94;
@@ -169,6 +171,7 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   padding: 0;
   cursor: pointer;
   vertical-align: middle;
+  background: white;
 }
 
 .rating-cell input:checked {
@@ -180,6 +183,7 @@ textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
   width: 52px;
   padding: 4px 3px;
   font-size: 11px;
+  background: white;
 }
 
 .actions {
@@ -263,15 +267,6 @@ button {
   margin-bottom: 10px;
 }
 
-.preview-box {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 13px;
-  background: #fafafa;
-  font-size: 12px;
-  line-height: 1.55;
-}
-
 .hidden { display: none; }
 
 @media (max-width: 1050px) {
@@ -285,90 +280,4 @@ button {
   .grid-2 { grid-template-columns: 1fr; }
   .actions { flex-direction: column; }
   .output-card { padding: 14px; }
-}
-
-
-/* Real XenForo-style report preview */
-.report-preview {
-  background: #fff;
-  color: #111;
-  border: 1px solid #d5d9df;
-  border-radius: 8px;
-  padding: 18px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.report-preview .rp-center { text-align: center; }
-.report-preview .rp-right { text-align: right; }
-.report-preview .rp-main-title { font-size: 18px; font-weight: 800; }
-.report-preview .rp-sub-title { font-size: 15px; font-weight: 800; }
-.report-preview .rp-dept { font-size: 10px; line-height: 1.35; }
-.report-preview .rp-rule {
-  border: 0;
-  border-top: 1px solid #111;
-  margin: 12px 0;
-}
-.report-preview .rp-section {
-  font-size: 13px;
-  font-weight: 800;
-  margin: 10px 0 8px;
-}
-.report-preview .rp-info {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 4px;
-}
-.report-preview .rp-info td {
-  width: 50%;
-  padding: 4px 6px 4px 0;
-  vertical-align: top;
-}
-.report-preview .rp-rating {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  margin: 5px 0;
-}
-.report-preview .rp-rating th,
-.report-preview .rp-rating td {
-  border: 1px solid #d8dbe0;
-  padding: 4px 3px;
-  font-size: 9px;
-  text-align: center;
-  vertical-align: middle;
-}
-.report-preview .rp-rating th:first-child,
-.report-preview .rp-rating td:first-child {
-  width: 58%;
-  text-align: left;
-}
-.report-preview .rp-rating th:not(:first-child),
-.report-preview .rp-rating td:not(:first-child) {
-  width: 7%;
-}
-.report-preview .rp-rating .rp-category td {
-  background: #f3f4f6;
-  font-weight: 800;
-  text-decoration: underline;
-  text-align: left;
-}
-.report-preview .rp-mark {
-  font-size: 11px;
-  font-weight: 800;
-}
-.report-preview .rp-question {
-  font-weight: 800;
-  margin: 8px 0 4px;
-}
-.report-preview .rp-quote {
-  background: #f6f7f8;
-  border-left: 3px solid #111;
-  padding: 7px 9px;
-  white-space: pre-wrap;
-  margin-bottom: 8px;
-}
-@media (max-width: 1050px) {
-  .report-preview { padding: 14px; }
 }
