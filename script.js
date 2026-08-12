@@ -41,12 +41,13 @@ const ratingKeys = ["N/O", "N/I", "C", "S", "NRT"];
 function renderRatings() {
   const body = document.getElementById("ratingBody");
   if (!body) return;
+  
   let html = "";
   let index = 0;
 
   groups.forEach(group => {
     html += `<tr class="category-row">
-      <td>${escapeHtml(group.name)}</td>
+      <td><b>${escapeHtml(group.name)}</b></td>
       <td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>`;
 
@@ -55,11 +56,11 @@ function renderRatings() {
       html += `<tr>
         <td>${escapeHtml(item)}</td>
         ${ratingKeys.map(key => `
-          <td class="rating-cell">
+          <td class="rating-cell" style="text-align:center;">
             <input type="radio" name="${id}" value="${key}" aria-label="${key} для ${escapeHtml(item)}">
           </td>
         `).join("")}
-        <td>
+        <td style="text-align:center;">
           <select class="ds-select" data-rating-index="${index}" aria-label="DS для ${escapeHtml(item)}">
             <option value="">-</option>
             ${Array.from({length: 10}, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
@@ -264,10 +265,16 @@ document.addEventListener("input", function (e) {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// Рендерим сразу и на DOMContentLoaded на всякий случай
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderRatings);
+} else {
+  renderRatings();
+}
+
+window.addEventListener("load", () => {
   renderRatings();
 
-  // Авто-высота для уже существующих textarea при загрузке
   document.querySelectorAll("textarea").forEach(ta => {
     ta.style.resize = "none";
     ta.style.overflow = "hidden";
@@ -288,9 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (copyBtn) copyBtn.addEventListener("click", copyOutput);
 
   const previewBtn = document.getElementById("previewBtn");
-  if (previewBtn) {
-    previewBtn.style.display = "none"; // Скрываем кнопку предпросмотра, если она есть
-  }
+  if (previewBtn) previewBtn.style.display = "none";
 
   const resetBtn = document.getElementById("resetBtn");
   if (resetBtn) {
@@ -302,7 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const status = document.getElementById("copyStatus");
       if (status) status.textContent = "";
       
-      // Сбрасываем высоту полей
       document.querySelectorAll("textarea").forEach(ta => {
         ta.style.height = "auto";
       });
