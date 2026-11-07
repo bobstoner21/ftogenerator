@@ -159,6 +159,7 @@ function makeRatingTable() {
 
 function makeBbCode() {
   const name = clean(document.getElementById("traineeName").value);
+  const fto = clean(document.getElementById("ftoName").value);
   const date = dateForReport(document.getElementById("patrolDate").value);
   const marking = clean(document.getElementById("marking").value);
   const time = clean(document.getElementById("patrolTime").value);
@@ -188,6 +189,10 @@ RAMPART PATROL DIVISION[/SIZE][/RIGHT]
 [TR]
 [TD][B]МАРКИРОВКА:[/B] ${marking}[/TD]
 [TD][B]НАЧАЛО И КОНЕЦ ПАТРУЛЯ:[/B] ${time}[/TD]
+[/TR]
+[TR]
+[TD][B]ОФИЦЕР-НАСТАВНИК (FTO):[/B] ${fto}[/TD]
+[TD][/TD]
 [/TR]
 [/TABLE]
 
@@ -266,6 +271,7 @@ function preview() {
   const content = document.getElementById("previewContent");
 
   const name = clean(document.getElementById("traineeName").value);
+  const fto = clean(document.getElementById("ftoName").value);
   const date = dateForReport(document.getElementById("patrolDate").value);
   const marking = clean(document.getElementById("marking").value);
   const time = clean(document.getElementById("patrolTime").value);
@@ -328,6 +334,10 @@ function preview() {
         <tr>
           <td><b>МАРКИРОВКА:</b> ${q(marking)}</td>
           <td><b>НАЧАЛО И КОНЕЦ ПАТРУЛЯ:</b> ${q(time)}</td>
+        </tr>
+        <tr>
+          <td><b>ОФИЦЕР-НАСТАВНИК (FTO):</b> ${q(fto)}</td>
+          <td></td>
         </tr>
       </table>
 
